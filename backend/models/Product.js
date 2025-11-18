@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['cakes', 'pastries', 'breads', 'cookies', 'desserts']
+        enum: ['Cakes', 'Pastries', 'Breads', 'Cookies', 'Desserts', 'cakes', 'pastries', 'breads', 'cookies', 'desserts']
     },
     price: {
         type: Number,
@@ -27,6 +27,14 @@ const productSchema = new mongoose.Schema({
     available: {
         type: Boolean,
         default: true
+    },
+    weight: {
+        type: String,
+        default: ''
+    },
+    contains: {
+        type: [String],
+        default: []
     },
     ingredients: {
         type: [String],

@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
 import orderRoutes from './routes/orders.js';
+import { seedProducts } from './seedData.js';
 
 dotenv.config();
 
@@ -43,7 +44,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/rutikas_b
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => console.log('MongoDB connected successfully'))
+.then(async () => {
+    console.log('MongoDB connected successfully');
+    // Seed products on startup
+    await seedProducts();
+})
 .catch(err => console.log('MongoDB connection error:', err));
 
 const PORT = process.env.PORT || 5000;

@@ -14,7 +14,15 @@ const Menu = () => {
     const [productInfoLoading, setProductInfoLoading] = useState(false);
     const [productInfoError, setProductInfoError] = useState(null);
     const { addToCart } = useCart();
-    const BACKEND_ORIGIN = 'http://localhost:5000';
+    
+    // Use VITE_API_URL from environment, fallback to relative path for local dev
+    const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+    
+    // Configure axios instance with base URL
+    const apiClient = axios.create({
+        baseURL: API_BASE_URL,
+        withCredentials: false
+    });
 
     const categories = [
         { id: 'all', name: 'All Items' },
@@ -39,7 +47,7 @@ const Menu = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('/api/products');
+            const response = await apiClient.get('/api/products');
             setProducts(response.data);
             setLoading(false);
             setError(null);

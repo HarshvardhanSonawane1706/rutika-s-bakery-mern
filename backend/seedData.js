@@ -2,10 +2,14 @@ import Product from '../models/Product.js';
 
 export const seedProducts = async () => {
     try {
+        console.log('🌱 Starting product seeding...');
+        
         // Check if products already exist
         const count = await Product.countDocuments();
+        console.log(`📊 Current product count: ${count}`);
+        
         if (count > 0) {
-            console.log(`Products already exist (${count} found). Skipping seed.`);
+            console.log(`✓ Products already exist (${count} found). Skipping seed.`);
             return;
         }
 
@@ -156,8 +160,9 @@ export const seedProducts = async () => {
         ];
 
         await Product.insertMany(products);
-        console.log(`✓ Seeded ${products.length} products successfully`);
+        console.log(`✅ Successfully seeded ${products.length} products to MongoDB`);
     } catch (error) {
-        console.error('Error seeding products:', error);
+        console.error('❌ Error seeding products:', error.message);
+        console.error('Stack:', error.stack);
     }
 };

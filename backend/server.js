@@ -40,16 +40,22 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 
 // MongoDB connection
+console.log('🔌 Attempting to connect to MongoDB...');
+console.log('📍 MONGODB_URI env var set:', !!process.env.MONGODB_URI);
+
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/rutikas_bakery', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
 .then(async () => {
-    console.log('MongoDB connected successfully');
+    console.log('✅ MongoDB connected successfully');
     // Seed products on startup
     await seedProducts();
 })
-.catch(err => console.log('MongoDB connection error:', err));
+.catch(err => {
+    console.error('❌ MongoDB connection error:', err.message);
+    console.error('Stack:', err.stack);
+});
 
 const PORT = process.env.PORT || 5000;
 
